@@ -37,6 +37,5 @@ fun AppNavigation() {
         composable("orders") {
             OrdersScreen()
         }
-
     }
 }

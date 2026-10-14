@@ -1,6 +1,7 @@
 package com.UmirHack2026A.wimsfp.data.model
 
 data class Dish(
+    val id: String,
     val name: String,
     val description: String,
     val imageUrl: String,
@@ -12,5 +13,6 @@ data class Dish(
 
 data class Ingredient(
     val product: String,
-    val count: Int
+    val count: Int,
+    val measure: String
 )
