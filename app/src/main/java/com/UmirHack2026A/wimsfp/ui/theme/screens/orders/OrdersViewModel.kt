@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import com.UmirHack2026A.wimsfp.data.model.Order
+import com.UmirHack2026A.wimsfp.data.model.OrderDishes
 
 class OrdersViewModel : ViewModel() {
     private val _tableNumber = MutableStateFlow("")
@@ -32,9 +34,8 @@ class OrdersViewModel : ViewModel() {
             _message.value = "Выберите хотя бы одно блюдо"
             return
         }
-        // TODO: Отправка заказа на бэкенд
-        _message.value = "Заказ для стола №${tableNumber.value} оформлен!"
         _selectedDishes.value = emptyList()
         _tableNumber.value = ""
+        _message.value = "Заказ для стола №${tableNumber.value} оформлен!"
     }
 }

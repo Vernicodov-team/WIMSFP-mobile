@@ -4,7 +4,7 @@ data class Product(
     val name: String,
     val measureUnit: String
 ) {
-    val productUnits = listOf<String>(
+    val productUnits = listOf(
         "Kilogram",
         "Liter",
         "Item")
