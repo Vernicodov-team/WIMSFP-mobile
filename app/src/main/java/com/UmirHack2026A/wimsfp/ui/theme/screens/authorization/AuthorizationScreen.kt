@@ -14,7 +14,7 @@ import com.UmirHack2026A.wimsfp.ui.theme.components.CustomTextField
 
 @Composable
 fun AuthorizationScreen(
-    onLoginSuccess: () -> Unit,
+    onLoginSuccess: (role: String) -> Unit,
     viewModel: AuthorizationViewModel = viewModel()
 ) {
     val login by viewModel.login.collectAsState()
