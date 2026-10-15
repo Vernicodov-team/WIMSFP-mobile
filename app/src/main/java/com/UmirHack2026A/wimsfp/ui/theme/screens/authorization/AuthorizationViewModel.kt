@@ -2,12 +2,14 @@ package com.UmirHack2026A.wimsfp.ui.screens.authorization
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.UmirHack2026A.wimsfp.data.model.LoginRequest
+import com.UmirHack2026A.wimsfp.data.repository.RestaurantRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AuthorizationViewModel : ViewModel() {
+class AuthorizationViewModel(private val repository: RestaurantRepository): ViewModel() {
     private val _login = MutableStateFlow("")
     val login: StateFlow<String> = _login.asStateFlow()
     private val _password = MutableStateFlow("")
@@ -18,6 +20,9 @@ class AuthorizationViewModel : ViewModel() {
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
     private val _isAuthorized = MutableStateFlow(false)
     val isAuthorized: StateFlow<Boolean> = _isAuthorized.asStateFlow()
+
+    private val _userRole = MutableStateFlow<String?>(null)
+    val userRole: StateFlow<String?> = _userRole.asStateFlow()
     fun onLoginChange(value: String) {
         _login.value = value
         _errorMessage.value = null
@@ -26,7 +31,7 @@ class AuthorizationViewModel : ViewModel() {
         _password.value = value
         _errorMessage.value = null
     }
-    fun authorize(onSuccess: () -> Unit) {
+    fun authorize(onSuccess: (role: String) -> Unit) {
         if (login.value.isBlank() || password.value.isBlank()) {
             _errorMessage.value = "Заполните все поля"
             return
@@ -34,11 +39,16 @@ class AuthorizationViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                // TODO: запрос к бэкенду
+                val loginRequest = LoginRequest(
+                    name = login.value,
+                    password = password.value
+                )
+                val response = repository.login(loginRequest)
+                _userRole.value = response.role
+                onSuccess(response.role)
 
                 kotlinx.coroutines.delay(1000)
                 _isAuthorized.value = true
-                onSuccess()
             } catch (e: Exception) {
                 _errorMessage.value = "Ошибка авторизации: ${e.message}"
             } finally {
