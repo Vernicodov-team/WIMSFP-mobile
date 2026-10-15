@@ -5,18 +5,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.UmirHack2026A.wimsfp.data.repository.RestaurantRepository
 import com.UmirHack2026A.wimsfp.ui.theme.components.CustomButton
 import com.UmirHack2026A.wimsfp.ui.theme.components.CustomTextField
 
 @Composable
 fun AuthorizationScreen(
     onLoginSuccess: (role: String) -> Unit,
-    viewModel: AuthorizationViewModel = viewModel()
+    repository: RestaurantRepository = RestaurantRepository(LocalContext.current)
 ) {
+    val viewModel: AuthorizationViewModel = viewModel(
+        factory = AuthorizationViewModelFactory(repository)
+    )
+
     val login by viewModel.login.collectAsState()
     val password by viewModel.password.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
