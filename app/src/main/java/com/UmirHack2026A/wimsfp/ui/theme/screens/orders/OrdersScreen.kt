@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.UmirHack2026A.wimsfp.ui.screens.orders
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +17,7 @@ import com.UmirHack2026A.wimsfp.ui.theme.components.CustomTextField
 
 @Composable
 fun OrdersScreen(
+    onNavigateToMenu: () -> Unit,
     viewModel: OrdersViewModel = viewModel()
 ) {
     val tableNumber by viewModel.tableNumber.collectAsState()
@@ -21,18 +25,31 @@ fun OrdersScreen(
     val message by viewModel.message.collectAsState()
     val availableDishes = listOf("Борщ", "Цезарь", "Паста", "Стейк")
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
-    ) {
-        Text(
-            text = "Оформление заказа",
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.primary
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = { Text("Оформление заказа") },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            actions = {
+                TextButton(
+                    onClick = onNavigateToMenu,
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Text(
+                        text = "Меню",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        style = MaterialTheme.typography.labelLarge,
+                    )
+                }
+            }
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         CustomTextField(
             value = tableNumber,
             onValueChange = viewModel::onTableNumberChange,

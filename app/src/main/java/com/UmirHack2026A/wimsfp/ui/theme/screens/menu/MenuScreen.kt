@@ -2,19 +2,24 @@
 
 package com.UmirHack2026A.wimsfp.ui.screens.menu
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.UmirHack2026A.wimsfp.ui.theme.components.ProductCard
 import com.UmirHack2026A.wimsfp.data.model.Dish
+import com.UmirHack2026A.wimsfp.ui.theme.components.CustomButton
 
 @Composable
 fun MenuScreen(
+    onNavigateToOrders: () -> Unit,
     viewModel: MenuViewModel = viewModel()
 ) {
     val dishes by viewModel.dishes.collectAsState()
@@ -28,7 +33,23 @@ fun MenuScreen(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 titleContentColor = MaterialTheme.colorScheme.onPrimary
-            )
+            ),
+            actions = {
+                TextButton(
+                    onClick = onNavigateToOrders,
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Text(
+                        text = "Заказы",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        style = MaterialTheme.typography.labelLarge,
+                    )
+                }
+            }
         )
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {

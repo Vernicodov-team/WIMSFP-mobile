@@ -27,7 +27,11 @@ fun AppNavigation() {
         }
 
         composable("menu") {
-            MenuScreen()
+            MenuScreen(
+                onNavigateToOrders = {
+                    navController.navigate("orders")
+                }
+            )
         }
 
         composable("deliveries") {
@@ -35,7 +39,11 @@ fun AppNavigation() {
         }
 
         composable("orders") {
-            OrdersScreen()
+            OrdersScreen(
+                onNavigateToMenu = {
+                    navController.navigate("menu")
+                }
+            )
         }
     }
 }
