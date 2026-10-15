@@ -50,50 +50,54 @@ fun OrdersScreen(
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
-        CustomTextField(
-            value = tableNumber,
-            onValueChange = viewModel::onTableNumberChange,
-            label = "Номер стола",
-            keyboardType = KeyboardType.Number
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = "Выберите блюда:",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+        ) {
+            CustomTextField(
+                value = tableNumber,
+                onValueChange = viewModel::onTableNumberChange,
+                label = "Номер стола",
+                keyboardType = KeyboardType.Number
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = "Выберите блюда:",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            availableDishes.forEach { dish ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                ) {
+                    Checkbox(
+                        checked = dish in selectedDishes,
+                        onCheckedChange = { viewModel.toggleDish(dish) }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = dish,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            CustomButton(
+                text = "Оформить заказ",
+                onClick = viewModel::createOrder
+            )
 
-        availableDishes.forEach { dish ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = dish in selectedDishes,
-                    onCheckedChange = { viewModel.toggleDish(dish) }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+            if (message != null) {
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = dish,
-                    style = MaterialTheme.typography.bodyLarge
+                    text = message!!,
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        CustomButton(
-            text = "Оформить заказ",
-            onClick = viewModel::createOrder
-        )
-
-        if (message != null) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = message!!,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
 }
