@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.UmirHack2026A.wimsfp.ui.theme.components.ProductCard
@@ -30,21 +31,21 @@ fun MenuScreen(
         TopAppBar(
             title = { Text("Меню ресторана") },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary
+                containerColor = Color(0xFFc85d18),
+                titleContentColor = Color(0xFFFFFFFF)
             ),
             actions = {
                 TextButton(
                     onClick = onNavigateToOrders,
                     border = BorderStroke(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color(0xFFFFFFFF)
                     ),
                     modifier = Modifier.padding(end = 8.dp)
                 ) {
                     Text(
                         text = "Заказы",
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = Color(0xFFFFFFFF),
                         style = MaterialTheme.typography.labelLarge,
                     )
                 }
@@ -133,22 +134,22 @@ fun MenuScreen(
                     Text(
                         text = "Цена: ${selectedDish!!.price} ₽",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = Color(0xFFFFFFFF)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Категория: ${selectedDish!!.category}",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = Color(0xFFFFFFFF)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = if (selectedDish!!.available) "Доступно" else "В стоп-листе",
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (selectedDish!!.available)
-                            MaterialTheme.colorScheme.primary
+                            Color(0xFFFFFFFF)
                         else
-                            MaterialTheme.colorScheme.error
+                            Color(0xFFFFFFFF)
                     )
                 }
             },

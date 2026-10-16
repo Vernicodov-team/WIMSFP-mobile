@@ -31,7 +31,7 @@ fun CustomTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 1f)
         )
     )
 }

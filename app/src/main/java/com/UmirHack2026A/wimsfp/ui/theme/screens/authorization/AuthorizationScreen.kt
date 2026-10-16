@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,16 +34,16 @@ fun AuthorizationScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "WIMSFP",
+            text = "Авторизация",
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.primary,
+            color = Color(0xFFc85d18),
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Вход для официанта",
+            text = "Введите логин и пароль",
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 1f)
         )
         Spacer(modifier = Modifier.height(48.dp))
         CustomTextField(
@@ -63,7 +64,7 @@ fun AuthorizationScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = errorMessage!!,
-                color = MaterialTheme.colorScheme.error,
+                color = Color(0xFFff3838),
                 style = MaterialTheme.typography.bodyMedium
             )
         }

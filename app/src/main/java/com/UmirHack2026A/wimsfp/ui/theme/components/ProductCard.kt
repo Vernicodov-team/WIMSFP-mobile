@@ -1,13 +1,17 @@
 package com.UmirHack2026A.wimsfp.ui.theme.components
 
+import android.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material3.RadioButtonDefaults.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -27,8 +31,11 @@ fun ProductCard(
             .padding(8.dp)
             .then(if (available) Modifier else Modifier.alpha(0.5f))
             .clip(RoundedCornerShape(12.dp)),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFc85d18)
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = onClick
+        onClick = onClick,
     ) {
         Row(modifier = Modifier.padding(12.dp)) {
             if (imageUrl != null) {
@@ -46,7 +53,7 @@ fun ProductCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = Color(0xFFFFFFFF),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -54,7 +61,7 @@ fun ProductCard(
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    color = Color(0xFFFFFFFF),
                     maxLines = 2
                 )
                 if (price != null) {
@@ -62,7 +69,7 @@ fun ProductCard(
                     Text(
                         text = price,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = Color(0xFFFFFFFF)
                     )
                 }
             }

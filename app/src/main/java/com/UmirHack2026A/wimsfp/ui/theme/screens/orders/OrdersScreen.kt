@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,21 +30,21 @@ fun OrdersScreen(
         TopAppBar(
             title = { Text("Оформление заказа") },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary
+                containerColor = Color(0xFFc85d18),
+                titleContentColor = Color(0xFFFFFFFF),
             ),
             actions = {
                 TextButton(
                     onClick = onNavigateToMenu,
                     border = BorderStroke(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color(0xFFFFFFFF)
                     ),
                     modifier = Modifier.padding(end = 8.dp)
                 ) {
                     Text(
                         text = "Меню",
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = Color(0xFFFFFFFF),
                         style = MaterialTheme.typography.labelLarge,
                     )
                 }
