@@ -1,5 +1,6 @@
 package com.UmirHack2026A.wimsfp.ui.screens.menu
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,9 +25,16 @@ class MenuViewModel(): ViewModel() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
+                val token = RestaurantRepository.authToken
+                Log.d("MENU_DEBUG", "Токен перед запросом: ${token ?: "ТОКЕН ОТСУТСТВУЕТ (NULL)"}")
+
+                Log.d("MENU_DEBUG", "Отправляем запрос на получение блюд...")
                 val dishesFromApi = RestaurantRepository.getDishes()
                 _dishes.value = dishesFromApi
+                Log.d("MENU_DEBUG", "УСПЕХ! Получено блюд с бэкенда: ${dishesFromApi.size}")
+                _dishes.value = dishesFromApi
             } catch (e: Exception) {
+                Log.e("MENU_DEBUG", "ОШИБКА ЗАГРУЗКИ МЕНЮ: ${e.message}", e)
                 _dishes.value = getMockDishes()
             } finally {
                 _isLoading.value = false
@@ -44,8 +52,8 @@ class MenuViewModel(): ViewModel() {
                 available = true,
                 category = "Супы",
                 ingredients = listOf(
-                    Ingredient("Свёкла", 150, "г"),
-                    Ingredient("Капуста", 100, "г")
+                    Ingredient("Свёкла", 150.0, "г"),
+                    Ingredient("Капуста", 100.0, "г")
                 )
             )
         )

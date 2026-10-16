@@ -47,13 +47,7 @@ class AuthorizationViewModel : ViewModel() {
                     name = login.value.trim(),
                     password = password.value
                 )
-
-                // Вызов бэкенда
                 val response = RestaurantRepository.login(loginRequest)
-
-                val role = RestaurantRepository.getUserRole()
-
-                // Передаём роль в навигацию
                 onSuccess(response)
 
             } catch (e: Exception) {

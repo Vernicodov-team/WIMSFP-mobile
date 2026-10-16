@@ -2,6 +2,7 @@ package com.UmirHack2026A.wimsfp.data.api
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.UmirHack2026A.wimsfp.data.repository.RestaurantRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,6 +15,19 @@ object ApiClient {
 
     private const val BASE_URL = "http://10.97.85.46:5094/"
 
+    private val authInterceptor = Interceptor { chain ->
+        val originalRequest = chain.request()
+        val token = RestaurantRepository.authToken
+        val request = if (!token.isNullOrEmpty()) {
+            originalRequest.newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+        } else {
+            originalRequest
+        }
+
+        chain.proceed(request)
+    }
     private var prefs: SharedPreferences? = null
 
     fun init(context: Context) {
@@ -22,20 +36,11 @@ object ApiClient {
 
     fun getToken(): String? = prefs?.getString("auth_token", null)
 
-    private val authInterceptor = Interceptor { chain ->
-        val request = chain.request().newBuilder()
-
-        val token = getToken()
-        if (!token.isNullOrEmpty()) {
-            request.addHeader("Authorization", "Bearer $token")
-        }
-
-        chain.proceed(request.build())
-    }
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
     private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)

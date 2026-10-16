@@ -123,7 +123,7 @@ fun MenuScreen(
                                     modifier = Modifier.weight(1f)
                                 )
                                 Text(
-                                    text = "${ingredient.count} ${ingredient.measure}",
+                                    text = "${formatCount(ingredient.count)} ${ingredient.measure}",
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }
@@ -158,5 +158,13 @@ fun MenuScreen(
                 }
             }
         )
+    }
+}
+
+fun formatCount(count: Double): String {
+    return if (count == count.toInt().toDouble()) {
+        count.toInt().toString()
+    } else {
+        count.toString()
     }
 }

@@ -13,6 +13,6 @@ data class Dish(
 
 data class Ingredient(
     val product: String,
-    val count: Int,
+    val count: Double,
     val measure: String
 )

@@ -9,7 +9,7 @@ object RestaurantRepository {
     private val api = ApiClient.apiService
 
     // Переменная для хранения токена в памяти
-    private var authToken: String? = null
+    var authToken: String? = null
     private var userRole: String? = null
 
     // === АВТОРИЗАЦИЯ ===
