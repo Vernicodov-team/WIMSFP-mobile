@@ -1,20 +1,15 @@
 package com.UmirHack2026A.wimsfp.ui.screens.authorization
 
-import android.app.Application
-import android.util.Base64
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.UmirHack2026A.wimsfp.data.model.LoginRequest
-import com.UmirHack2026A.wimsfp.data.repository.RestaurantRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
+import com.UmirHack2026A.wimsfp.data.model.LoginRequest
+import com.UmirHack2026A.wimsfp.data.repository.RestaurantRepository
 
-class AuthorizationViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = RestaurantRepository(application)
+class AuthorizationViewModel : ViewModel() {
 
     private val _login = MutableStateFlow("")
     val login: StateFlow<String> = _login.asStateFlow()
@@ -38,6 +33,7 @@ class AuthorizationViewModel(application: Application) : AndroidViewModel(applic
         _errorMessage.value = null
     }
 
+    // Теперь принимает роль для навигации
     fun authorize(onSuccess: (role: String) -> Unit) {
         if (login.value.isBlank() || password.value.isBlank()) {
             _errorMessage.value = "Заполните все поля"
@@ -51,38 +47,20 @@ class AuthorizationViewModel(application: Application) : AndroidViewModel(applic
                     name = login.value.trim(),
                     password = password.value
                 )
-                val token = repository.login(loginRequest)
-                val role = extractRoleFromJwt(token)
-                repository.saveAuthToken(token)
-                onSuccess(role)
+
+                // Вызов бэкенда
+                val response = RestaurantRepository.login(loginRequest)
+
+                val role = RestaurantRepository.getUserRole()
+
+                // Передаём роль в навигацию
+                onSuccess(response)
 
             } catch (e: Exception) {
-                _errorMessage.value = "Ошибка: ${e.message}"
+                _errorMessage.value = "Ошибка авторизации: ${e.message}"
             } finally {
                 _isLoading.value = false
             }
-        }
-    }
-
-    private fun extractRoleFromJwt(token: String): String {
-        return try {
-            val parts = token.split(".")
-            if (parts.size < 2) return "waiter"
-
-            val payload = parts[1]
-            val decodedBytes = Base64.decode(payload, Base64.URL_SAFE)
-            val json = String(decodedBytes, Charsets.UTF_8)
-
-            val jsonObject = JSONObject(json)
-            val roleKey = jsonObject.keys().asSequence().find { it.contains("role", ignoreCase = true) }
-
-            if (roleKey != null) {
-                jsonObject.getString(roleKey).lowercase()
-            } else {
-                "waiter"
-            }
-        } catch (e: Exception) {
-            "waiter"
         }
     }
 }
