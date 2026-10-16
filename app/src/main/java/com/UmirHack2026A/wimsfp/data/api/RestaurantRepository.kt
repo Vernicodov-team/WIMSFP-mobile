@@ -9,6 +9,10 @@ class RestaurantRepository(context: Context) {
     private val api = ApiClient.apiService
     private val prefs: SharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
+
+    fun saveAuthToken(token: String) {
+        prefs.edit().putString("auth_token", token).apply()
+    }
     fun saveAuthData(token: String, role: String, name: String) {
         prefs.edit()
             .putString("auth_token", token)
@@ -25,9 +29,8 @@ class RestaurantRepository(context: Context) {
         prefs.edit().clear().apply()
     }
 
-    suspend fun login(login: LoginRequest): LoginResponse {
+    suspend fun login(login: LoginRequest): String {
         val response = api.login(login)
-        saveAuthData(response.token, response.role, response.name)
         return response
     }
 

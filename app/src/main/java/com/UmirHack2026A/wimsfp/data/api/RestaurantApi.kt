@@ -11,7 +11,7 @@ import com.UmirHack2026A.wimsfp.data.model.LoginResponse
 interface RestaurantApi {
 
     @POST("api/v1/user/login")
-    suspend fun login(@Body login: LoginRequest): LoginResponse
+    suspend fun login(@Body login: LoginRequest): String
 
     @GET("api/v1/dish")
     suspend fun getDish(): List<Dish>
